@@ -1,0 +1,2 @@
+# Shortcuts contain machine-specific absolute paths — generate with install.ps1 instead
+*.lnk
