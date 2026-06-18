@@ -39,7 +39,8 @@ function Test-WslRunning {
     }
     if (-not $out) { return $false }
     foreach ($line in $out) {
-        if ($line.Trim() -eq $Distro) { return $true }
+        $clean = ($line -replace '\x00', '').Trim()
+        if ($clean -eq $Distro) { return $true }
     }
     return $false
 }
@@ -83,9 +84,8 @@ $notify.Visible = $true
 # --- Context menu ---
 $menu = New-Object System.Windows.Forms.ContextMenuStrip
 
-# Status item at the top (non-clickable, updated by Update-Status)
-$miStatus  = New-Object System.Windows.Forms.ToolStripMenuItem
-$miStatus.Enabled = $false
+# Status item at the top (non-clickable label, shows coloured dot in full colour)
+$miStatus = New-Object System.Windows.Forms.ToolStripLabel
 $null = $menu.Items.Add($miStatus)
 $null = $menu.Items.Add('-')
 
