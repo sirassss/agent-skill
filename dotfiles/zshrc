@@ -1,0 +1,63 @@
+# ── Chỉ chạy nếu interactive ─────────────────────────────────
+[[ $- != *i* ]] && return
+
+# ── History ──────────────────────────────────────────────────
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_VERIFY
+
+# ── Completion ───────────────────────────────────────────────
+autoload -Uz compinit
+compinit
+
+# ── Colors & ls ──────────────────────────────────────────────
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+fi
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# ── Custom aliases ────────────────────────────────────────────
+alias gs='git status'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias py='python3'
+
+# ── PATH ─────────────────────────────────────────────────────
+export PATH="$HOME/.scripts:$HOME/.local/bin:$PATH"
+
+# ── Anthropic model settings ──────────────────────────────────
+export ANTHROPIC_CUSTOM_MODEL_OPTION="claude-opus-4-6"
+export ANTHROPIC_CUSTOM_MODEL_OPTION_NAME="Opus 4.6"
+export ANTHROPIC_CUSTOM_MODEL_OPTION_DESCRIPTION="Opus 4.6 - old model"
+
+# ── NVM ──────────────────────────────────────────────────────
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# ── Antigravity Keyring Autostart (WSL2) ─────────────────────
+if [ -t 1 ]; then
+    if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+        eval $(dbus-launch --sh-syntax 2>/dev/null)
+    fi
+    if ! pgrep -x "gnome-keyring-d" > /dev/null 2>&1; then
+        eval $(gnome-keyring-daemon --start --components=secrets 2>/dev/null)
+        export GNOME_KEYRING_CONTROL SSH_AUTH_SOCK
+    fi
+fi
+
+# ── lesspipe ─────────────────────────────────────────────────
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# ── Starship (phải đặt cuối cùng) ────────────────────────────
+eval "$(starship init zsh)"
