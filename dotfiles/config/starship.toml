@@ -1,0 +1,85 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$directory\
+$git_branch\
+$git_status\
+$cmd_duration\
+$fill\
+$golang$python$nodejs$rust$java\
+$line_break\
+$character"""
+
+[character]
+success_symbol = "[❯](bold red)[❯](yellow)[❯](green)"
+error_symbol = "[❯](bold red)[❯](yellow)[❯](green)"
+vicmd_symbol = "[❮](bold green)[❮](yellow)[❮](red)"
+
+[directory]
+style = "bold cyan"
+truncation_length = 5
+format = "[$path]($style) "
+
+[git_branch]
+symbol = "⎇ "
+style = "bold purple"
+format = "on [$symbol$branch]($style)"
+
+[git_status]
+style = "bold purple"
+format = '([\[$all_status$ahead_behind\]]($style))'
+ahead      = "[⇡$count](bold purple)"
+behind     = "[⇣$count](bold purple)"
+diverged   = "[⇕⇡$ahead_count⇣$behind_count](#FF7F50)"
+modified   = "[!$count](blue)"
+staged     = "[+$count](green)"
+untracked  = "[?$count](white)"
+deleted    = "[✘$count](red)"
+conflicted = "[~$count](yellow)"
+stashed    = "[✭$count](cyan)"
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration](bold yellow) "
+
+[fill]
+symbol = " "
+
+# Language versions — chỉ hiện khi đang trong project liên quan
+[golang]
+format = "[go $version](cyan dimmed) "
+detect_files = ["go.mod", "go.sum"]
+
+[python]
+format = "[py $version](yellow dimmed) "
+detect_files = ["requirements.txt", "pyproject.toml", "setup.py", ".python-version"]
+
+[nodejs]
+format = "[node $version](green dimmed) "
+detect_files = ["package.json", ".nvmrc", ".node-version"]
+
+[rust]
+disabled = true
+
+[java]
+format = "[java $version](red) "
+
+[docker_context]
+format = "[🐳 $context](blue bold) "
+only_with_files = true
+
+# Tắt những thứ không cần
+[package]
+disabled = true
+
+[time]
+disabled = true
+
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+[status]
+disabled = true
