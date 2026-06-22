@@ -5,7 +5,7 @@
 $ErrorActionPreference = 'Stop'
 
 # --- Config ---
-$Distro = 'Ubuntu-24.04'
+$Distro = 'Ubuntu-22.04'
 $env:WSL_UTF8 = 1            # force UTF-8 output from WSL (avoids UTF-16/null-byte on PS 5.1)
 
 Add-Type -AssemblyName System.Windows.Forms
